@@ -1,5 +1,4 @@
 #include <stdio.h>
-
 #define MAX 100
 
 struct triplet {
@@ -34,10 +33,10 @@ int addTriplets(struct triplet compact1[], struct triplet compact2[], struct tri
     sum[0].col = compact1[0].col;
 
     while (i <= total1 && j <= total2) {
-        if (compact1[i].row < compact2[j].row ||
+        if (compact1[i].row < compact2[j].row || 
             (compact1[i].row == compact2[j].row && compact1[i].col < compact2[j].col)) {
             sum[k++] = compact1[i++];
-        } else if (compact2[j].row < compact1[i].row ||
+        } else if (compact2[j].row < compact1[i].row || 
                    (compact2[j].row == compact1[i].row && compact2[j].col < compact1[i].col)) {
             sum[k++] = compact2[j++];
         } else {
@@ -89,6 +88,28 @@ void printTriplet(struct triplet trip[], int total) {
     }
 }
 
+void printFullMatrix(struct triplet trip[], int total) {
+    int m = trip[0].row;
+    int n = trip[0].col;
+    int fullMatrix[m][n];
+
+    for (int i = 0; i < m; i++)
+        for (int j = 0; j < n; j++)
+            fullMatrix[i][j] = 0;
+
+    for (int i = 1; i <= total; i++) {
+        fullMatrix[trip[i].row][trip[i].col] = trip[i].value;
+    }
+
+    printf("Full Matrix Representation:\n");
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+            printf("%d ", fullMatrix[i][j]);
+        }
+        printf("\n");
+    }
+}
+
 int main() {
     int m, n;
     int sparse1[10][10], sparse2[10][10];
@@ -121,8 +142,14 @@ int main() {
     printf("\nSum Matrix (Triplet Form):\n");
     printTriplet(sum, totalSum);
 
-    printf("\nTranspose of Sum Matrix:\n");
+    printf("\nTranspose of Sum Matrix (Triplet Form):\n");
     printTriplet(transposeMatrix, totalSum);
+
+    printf("\nSum Matrix in Full Form:\n");
+    printFullMatrix(sum, totalSum);
+
+    printf("\nTranspose of Sum Matrix in Full Form:\n");
+    printFullMatrix(transposeMatrix, totalSum);
 
     return 0;
 }
